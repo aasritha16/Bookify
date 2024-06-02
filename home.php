@@ -1,66 +1,93 @@
- <!-- Header-->
- <header class="bg-dark py-5" id="main-header">
-     <div class="container h-100 d-flex align-items-center justify-content-center w-100">
-         <div class="text-center text-white w-100">
-             <h1 class="display-4 fw-bolder mx-5">
-                 <h1 class="">Welcome to BookiFy</h1>
-             </h1>
-             <div class="col-auto mt-4">
-                 <!-- <a class="btn btn-warning btn-lg rounded-0" href="./?p=booking">Book Now</a> -->
-             </div>
-         </div>
-     </div>
- </header>
- <!-- Section-->
- <section class="py-5">
-     <div class="container">
-         <div class="card shadow card-outline card-primary rounded-0">
-             <div class="card-body">
-                 <?php include './welcome.html' ?>
-             </div>
-         </div>
-     </div>
- </section>
- <script>
-     $(function() {
-         $('#search').on('input', function() {
-             var _search = $(this).val().toLowerCase().trim()
-             $('#service_list .item').each(function() {
-                 var _text = $(this).text().toLowerCase().trim()
-                 _text = _text.replace(/\s+/g, ' ')
-                 console.log(_text)
-                 if ((_text).includes(_search) == true) {
-                     $(this).toggle(true)
-                 } else {
-                     $(this).toggle(false)
-                 }
-             })
-             if ($('#service_list .item:visible').length > 0) {
-                 $('#noResult').hide('slow')
-             } else {
-                 $('#noResult').show('slow')
-             }
-         })
-         $('#service_list .item').hover(function() {
-             $(this).find('.callout').addClass('shadow')
-         })
-         $('#service_list .view_service').click(function() {
-             uni_modal("Service Details", "view_service.php?id=" + $(this).attr('data-id'), 'mid-large')
-         })
-         $('#send_request').click(function() {
-             uni_modal("Fill the Service Request Form", "send_request.php", 'large')
-         })
+<h1 class="">Welcome to BookiFy</h1>
+<hr>
+<style>
+  #cover_img_dash {
+    width: 100%;
+    max-height: 50vh;
+    object-fit: cover;
+    object-position: bottom center;
+  }
+</style>
+<div class="row">
+  <div class="col-12 col-sm-6 col-md-3">
+    <div class="info-box">
+      <span class="info-box-icon bg-gradient-dark elevation-1"><i class="fas fa-copyright"></i></span>
 
-     })
-     $(document).scroll(function() {
-         $('#topNavBar').removeClass('bg-transparent navbar-light navbar-dark bg-gradient-light text-light')
-         if ($(window).scrollTop() === 0) {
-             $('#topNavBar').addClass('navbar-dark bg-transparent text-light')
-         } else {
-             $('#topNavBar').addClass('navbar-light bg-gradient-light ')
-         }
-     });
-     $(function() {
-         $(document).trigger('scroll')
-     })
- </script>
+      <div class="info-box-content">
+        <span class="info-box-text">Total Categories</span>
+        <span class="info-box-number">
+          <?php
+          $inv = $conn->query("SELECT count(id) as total FROM category_list where delete_flag = 0 ")->fetch_assoc()['total'];
+          echo number_format($inv);
+          ?>
+          <?php ?>
+        </span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-12 col-sm-6 col-md-3">
+    <div class="info-box">
+      <span class="info-box-icon bg-gradient-warning elevation-1"><i class="fas fa-door-closed"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Total Facilities</span>
+        <span class="info-box-number">
+          <?php
+          $inv = $conn->query("SELECT count(id) as total FROM facility_list where delete_flag = 0 ")->fetch_assoc()['total'];
+          echo number_format($inv);
+          ?>
+          <?php ?>
+        </span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-12 col-sm-6 col-md-3">
+    <div class="shadow info-box mb-3">
+      <span class="info-box-icon bg-gradient-primary elevation-1"><i class="fas fa-users"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Registered Clients</span>
+        <span class="info-box-number">
+          <?php
+          $mechanics = $conn->query("SELECT sum(id) as total FROM `client_list` where delete_flag = 0 ")->fetch_assoc()['total'];
+          echo number_format($mechanics);
+          ?>
+        </span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+
+  <!-- fix for small devices only -->
+  <div class="clearfix hidden-md-up"></div>
+
+  <div class="col-12 col-sm-6 col-md-3">
+    <div class="shadow info-box mb-3">
+      <span class="info-box-icon bg-gradient-light elevation-1"><i class="fas fa-tasks"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Pending Bookings</span>
+        <span class="info-box-number">
+          <?php
+          $services = $conn->query("SELECT sum(id) as total FROM `booking_list` where status = 0 ")->fetch_assoc()['total'];
+          echo number_format($services);
+          ?>
+        </span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+</div>
+<hr>
+<div class="text-center">
+  <img src="<?= validate_image($_settings->info('cover')) ?>" alt="System Cover" class="w-100 img-fluid img-thumnail border" id="cover_img_dash">
+</div>

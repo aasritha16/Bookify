@@ -1,4 +1,4 @@
-<?php require_once('./config.php') ?>
+<?php require_once('../config.php') ?>
 <!DOCTYPE html>
 <html lang="en" class="" style="height: auto;">
  <?php require_once('inc/header.php') ?>
@@ -22,25 +22,19 @@
       }
   </style>
 <div class="login-box">
-<?php $page = isset($_GET['page']) ? $_GET['page'] : 'home';  ?>
-     <?php if($_settings->chk_flashdata('success')): ?>
-      <script>
-        alert_toast("<?php echo $_settings->flashdata('success') ?>",'success')
-      </script>
-    <?php endif;?>
-  <!-- /.login-logo -->
-  <center><img src="<?= validate_image($_settings->info('logo')) ?>" alt="System Logo" class="img-thumbnail rounded-circle" id="logo-img"></center>
+<center><img src="<?= validate_image($_settings->info('logo')) ?>" alt="System Logo" class="img-thumbnail rounded-circle" id="logo-img"></center>
   <div class="clear-fix my-2"></div>
+  <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="./" class="h1 text-decoration-none"><b>Login</b></a>
+      <a href="./" class="h1"><b>Admin Login</b></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form id="clogin-frm" action="" method="post">
+      <form id="login-frm" action="" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" autofocus placeholder="Email">
+          <input type="text" class="form-control" name="username" autofocus placeholder="Username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -55,20 +49,15 @@
             </div>
           </div>
         </div>
-        <div class="row align-items-center">
+        <div class="row">
           <div class="col-8">
             <a href="<?php echo base_url ?>">Back to Site</a>
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-sm btn-flat btn-block">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-flat btn-sm w-100">Sign In</button>
           </div>
           <!-- /.col -->
-        </div>
-        <div class="row">
-            <div class="col-12 text-center">
-             <a href="<?php echo base_url.'register.php' ?>">Create an Account</a>
-            </div>
         </div>
       </form>
       <!-- /.social-auth-links -->
